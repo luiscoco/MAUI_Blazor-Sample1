@@ -1,0 +1,48 @@
+﻿@page "/todolist"
+
+<h3>Todo List</h3>
+
+<!-- Display the existing todos -->
+@if (todos.Count > 0)
+{
+    <ul>
+        @foreach (var todo in todos)
+        {
+            <li>
+                @todo
+                <button class="btn btn-danger btn-sm" @onclick="() => DeleteTodo(todo)">Delete</button>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No todos yet. Add some!</p>
+}
+
+<!-- Add a new todo -->
+<div class="input-group mb-3">
+    <input type="text" class="form-control" @bind="newTodo" />
+    <div class="input-group-append">
+        <button class="btn btn-primary" @onclick="AddTodo">Add Todo</button>
+    </div>
+</div>
+
+@code {
+    private List<string> todos = new List<string>();
+    private string newTodo;
+
+    private void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(newTodo);
+            newTodo = string.Empty;
+        }
+    }
+
+    private void DeleteTodo(string todo)
+    {
+        todos.Remove(todo);
+    }
+}
